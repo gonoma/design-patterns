@@ -1,44 +1,48 @@
-#Dependency Inversion Principle (DIP)
+# Dependency Inversion Principle (DIP)
 
-#high levels classes should not depend on low leve modules,
-#instead they should depend on abstraction.
+# High level classes should not depend on low level modules,
+# instead, they should depend on abstraction.
 
 from enum import Enum
 from abc import abstractmethod
 
+
 class Relationship(Enum):
+    """Identifiers, e.g. 0 = Parent"""
+
     PARENT = 0
     CHILD = 1
     SIBLING = 2
+
 
 class Person:
     def __init__(self, name):
         self.name = name
 
+
 class RelationshipBrowser:
     @abstractmethod
-    def find_all_children_of(self, name): pass
+    def find_all_children_of(self, name):
+        pass
 
-#Low level module
+
+# Low level module
 class Relationships(RelationshipBrowser):
     def __init__(self):
         self.relations = []
 
     def add_parent_and_child(self, parent, child):
-        self.relations.append(
-            (parent, Relationship.PARENT, child)
-        )
-        self.relations.append(
-            (child, Relationship.CHILD, parent)
-        )
-    
+        self.relations.append((parent, Relationship.PARENT, child))
+        self.relations.append((child, Relationship.CHILD, parent))
+
     def find_all_children_of(self, name):
         for r in self.relations:
             if r[0].name == name and r[1] == Relationship.PARENT:
                 yield r[2].name
 
-#how to break the DIP -->
-#High level module
+
+# how to break the DIP --> commented out code
+# High level module
 class Research:
     # def __init__(self, relationships):
     #     relations = relationships.relations
@@ -47,13 +51,13 @@ class Research:
     #             print(f'John has a child called {r[2].name}')
 
     def __init__(self, browser):
-        for p in browser.find_all_children_of('John'):
-            print(f'John has a child called {p}')
+        for p in browser.find_all_children_of("John"):
+            print(f"John has a child called {p}")
 
 
-parent = Person('John')
-child1 = Person('Chris')
-child2 = Person('Matt')
+parent = Person("John")
+child1 = Person("Chris")
+child2 = Person("Matt")
 
 Relationships = Relationships()
 Relationships.add_parent_and_child(parent, child1)
@@ -61,9 +65,9 @@ Relationships.add_parent_and_child(parent, child2)
 
 Research(Relationships)
 
-#What was the problem, and how we fixed it -->
+# What was the problem, and how we fixed it -->
 
-'''
+"""
 
 So relations in line 44 is the way the Relationships module in line 23
 stores relations, which is a list.
@@ -86,4 +90,4 @@ else, you would ony need to adapt the lines 35-38, and ALL the high level module
 Research(Relationships) in line 62 inherits RelationshipBrowser, and has its methods enherited.
 
 
-'''
+"""

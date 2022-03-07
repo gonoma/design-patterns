@@ -1,12 +1,13 @@
 from abc import ABC
-from collections.abc import Iterable 
+from collections.abc import Iterable
+
 
 class Operations(ABC, Iterable):
     @property
     def sum(self):
         result = 0
         for x in self:
-            #print(x)
+            # print(x)
             if isinstance(x, SingleValue):
                 x = x.value
             elif isinstance(x, ManyValues):
@@ -21,7 +22,7 @@ class Operations(ABC, Iterable):
 class SingleValue(Operations):
     def __init__(self, value):
         self.value = value
-    
+
     def __iter__(self):
         yield self
 

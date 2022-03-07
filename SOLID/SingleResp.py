@@ -1,5 +1,6 @@
-#Single Responsibility Principle (SRP)
-#Separation Of Concerns (SOC)
+# Single Responsibility Principle (SRP)
+# Separation Of Concerns (SOC)
+
 
 class Journal:
     def __init__(self):
@@ -8,28 +9,27 @@ class Journal:
 
     def add_entry(self, text):
         self.count += 1
-        self.entries.append(f'{self.count}: {text}')
+        self.entries.append(f"{self.count}: {text}")
 
     def remove_entry(self, pos):
         del self.entries[pos]
-    
+
     def __str__(self):
-        return '\n'.join(self.entries)
+        return "\n".join(self.entries)
 
+    # WHAT IS __STR__ ?  :
 
-    #WHAT IS __STR__ ?  :
-    
-    #without __str__
-    '''
+    # without __str__
+    """
     In [1]:         class Person:
    ...:             pass
    ...: 
     In [2]:         p = Person()
     In [3]:         print p
     <__main__.Person instance at 0x7faffb3ac5f0>
-    '''
-    #with __str__
-    '''
+    """
+    # with __str__
+    """
     In [4]:         class Person:
     ...:     def __str__(self):
     ...:         return 'Person class'
@@ -38,12 +38,12 @@ class Journal:
     In [6]: print p
     Person class
     
-    '''
+    """
 
-    #Break the SRP by adding additional responsibility
+    # Break the SRP by adding additional responsibility
     # that never really asked for.
 
-    '''The problem with this is that we added a
+    """The problem with this is that we added a
     second responsibility of "persistence" to the journal class.
 
     It may seem like a good idea, but if you think about
@@ -71,35 +71,36 @@ class Journal:
 
     def low_from_web(self, uri):
         pass
-    '''
+    """
+
 
 class PersistenceManager:
-    #we don't use self, we make it static.
+    # we don't use self, we make it static.
     @staticmethod
     def save_to_file(journal, filename):
-        file = open(filename, 'w')
+        file = open(filename, "w")
         file.write(str(journal))
         file.close()
 
 
 j = Journal()
-j.add_entry('I cried today.')
-j.add_entry('I ate a bug.')
-print(f'Journal entries:\n{j}')
+j.add_entry("I cried today.")
+j.add_entry("I ate a bug.")
+print(f"Journal entries:\n{j}")
 
-file = r'C:\Users\gonza\OneDrive\Documentos\MA_Shit\Udemy\journal.txt'
+file = r"C:\Users\gonza\OneDrive\Documentos\MA_Shit\Udemy\journal.txt"
 PersistenceManager.save_to_file(j, file)
-'''the r in line 90 is a "raw string" and is used to make sure python does not
-understand \name.txt and a new like ame.txt, but rather like a file name.txt '''
+"""the r in line 90 is a "raw string" and is used to make sure python does not
+understand \name.txt and a new like ame.txt, but rather like a file name.txt """
 
-#fh = file handler
+# fh = file handler
 with open(file) as fh:
     print(fh.read())
 
-#In the output everything is printed twice, the first time is when
-#we printed them using str, and the second one is when we serialised
-#them into a file and then reading them from that file.
+# In the output everything is printed twice, the first time is when
+# we printed them using str, and the second one is when we serialised
+# them into a file and then reading them from that file.
 
-#A god object would be a file of class that has everything inside it,
-#this is not good, a god obect should be splitted and subdivided into
-#adequate design patterns.
+# A god object would be a file of class that has everything inside it,
+# this is not good, a god obect should be splitted and subdivided into
+# adequate design patterns.
