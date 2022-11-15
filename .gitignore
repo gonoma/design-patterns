@@ -12,6 +12,10 @@
 *.map
 *.exp
 
+# Editors
+.vscode/
+.idea/
+
 # Precompiled Headers
 *.gch
 *.pch
