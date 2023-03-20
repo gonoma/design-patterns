@@ -45,6 +45,8 @@ rc = Rectangle(2, 3)
 use_it(rc)
 
 # All good with the above, now let us try to break it
+# by breaking the Liskov Substitution method by making a derived class (i.e. inherits from Rectangle)
+# which absolutely does not work with the use_it() method.
 # and in the process see why we used properties as opposed to attributes.
 
 
@@ -64,4 +66,14 @@ class Square(Rectangle):
 sq = Square(5)
 use_it(sq)
 
-# The problem is with line 37, because it changes both the width and the height to 10.
+# The "problem" is with line 39 (rc.height = 10), because it changes both the width and the height to 10.
+# This is a direct violation of the Liskov substitution principle which states that
+# whenever you have an interface taking some sort of base class,
+# you should be able to stick in any of its inheriters
+# (e.g. if you take a Rectangle as a base class, you should be able to stick in a square)
+# and everything should work correctly
+
+# There are many ways of correcting this problem:
+# one could argue that there is no need for a Square class in the first place,
+# you could have a boolean property in the Rectangle class that states whether it's a Square or not,
+# or you could have a Factory method which could make a square instead of a Rectangle.

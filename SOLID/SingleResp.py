@@ -17,31 +17,17 @@ class Journal:
     def __str__(self):
         return "\n".join(self.entries)
 
-    # WHAT IS __STR__ ?  :
-
-    # without __str__
-    """
-    In [1]:         class Person:
-   ...:             pass
-   ...: 
-    In [2]:         p = Person()
-    In [3]:         print p
-    <__main__.Person instance at 0x7faffb3ac5f0>
-    """
-    # with __str__
-    """
-    In [4]:         class Person:
-    ...:     def __str__(self):
-    ...:         return 'Person class'
-    ...:     
-    In [5]: p = Person()
-    In [6]: print p
-    Person class
-    
-    """
-
     # Break the SRP by adding additional responsibility
     # that never really asked for.
+
+    # def save(self, filename):
+    #     pass
+    #
+    # def load(self, filename):
+    #     pass
+    #
+    # def load_from_web(self, uri):
+    #     pass
 
     """The problem with this is that we added a
     second responsibility of "persistence" to the journal class.
@@ -102,5 +88,5 @@ with open(file) as fh:
 # them into a file and then reading them from that file.
 
 # A god object would be a file of class that has everything inside it,
-# this is not good, a god obect should be splitted and subdivided into
+# this is not good, a god object should be splited and subdivided into
 # adequate design patterns.

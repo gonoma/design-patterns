@@ -54,7 +54,7 @@ class ProductFilter:
     # It does not Scale!
 
 
-# To sove this we can use "Enterprise Patterns", which would need a separate course,
+# To solve this we can use "Enterprise Patterns", which would need a separate course,
 # but here we are implementing one of them
 
 # Specification
@@ -65,7 +65,7 @@ class Specification:
     def is_satisfied(self, item):
         pass
 
-    # Line 142, this is useful to simplify code, and can be extended
+    # Line 164, this is useful to simplify code, and can be extended
     def __and__(self, other):
         return AndSpecification(self, other)
 
@@ -121,10 +121,12 @@ class AndSpecification(Specification):
         every single element and apply a lambda to it.
 
         Lambda takes a specification and checks if it is satisfied for this particular
-        item (we have many items stored in args), and we go through self.args.
-        So we go through every single argument and we check wether or not is satisfied
+        item (we have many items stored in args), and we go through self.args
+
+        So we go through every single argument checking whether it is satisfied or not,
         which is handled by the map function, and then we use all() which checks that
         every single argument is a boolean value of True."""
+
         return all(map(lambda spec: spec.is_satisfied(item), self.args))
 
 
@@ -159,6 +161,6 @@ if __name__ == "__main__":
     print("Large blue items:")
     # large_blue = AndSpecification(large,
     #   ColorSpecification(Color.BLUE))
-    large_blue = large & ColorSpecification(Color.BLUE)
+    large_blue = large & ColorSpecification(Color.BLUE)  # Works thanks to __and__ method
     for p in bf.filter(products, large_blue):
         print(f" - {p.name} is large and blue")

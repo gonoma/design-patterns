@@ -37,11 +37,19 @@ class OldFashionedPrinter(Machine):
         pass
 
     def fax(self, document):
-        pass  # do nothing
+        pass  # First approach: do nothing. This is not good, can confuse people.
 
     def scan(self, document):
         """Not supported!"""
-        raise NotImplementedError("Printer cannot scan!")
+        raise NotImplementedError("Printer cannot scan!")  # Second approach, raise error. This is better...
+                                                           # But still not good enough, it could crash your entire app
+                                                           # Simply because down the line you may need it,
+                                                           # and all it does is give back errors
+
+
+# Now, the idea of ISP, is that instead of having one large interface (i.e. Machine in this case),
+# you want to keep things granular, you want to split the Machine interface into separate parts
+# that people can implement (i.e. interfaces Printer, Scanner, FaxMachine)
 
 
 class Printer:
@@ -69,6 +77,9 @@ class Photocopier(Printer, Scanner):
         pass
 
 
+# In case you really want to have the single interface at the beginning, you can do it correctly like so:
+
+
 class MultifunctionDevice(Printer, Scanner):
     @abstractmethod
     def print(self, document):
@@ -77,6 +88,8 @@ class MultifunctionDevice(Printer, Scanner):
     @abstractmethod
     def scan(self, document):
         pass
+
+# And implemented like this:
 
 
 class MultifunctionMachine(MultifunctionDevice):

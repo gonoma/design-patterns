@@ -1,7 +1,7 @@
 # Dependency Inversion Principle (DIP)
 
-# High level classes should not depend on low level modules,
-# instead, they should depend on abstraction.
+# High level classes should not depend on concretions,
+# instead, they should depend on abstractions.
 
 from enum import Enum
 from abc import abstractmethod
@@ -69,25 +69,24 @@ Research(Relationships)
 
 """
 
-So relations in line 44 is the way the Relationships module in line 23
+So relations in line 48 is the way the Relationships module in line 32
 stores relations, which is a list.
 
-Now, imagine we decide to change from a list to something else (e.g. a dictionary).
-Because you are accessing the internal mechanism (i.e. relationship = list), in your
-high level module, so you can't change line 25, or else all between lines
-44-47 will break.
+Now, imagine we decide to change relations attribute from a list to something else (e.g. a dictionary).
+Because you are accessing the internal storage mechanism Relationships.relations of your low level module, in your
+high level module, if you change relations to a dict it will break all your code that is using it (this could be a lot of code),
+because it depends on it being a list.
+
 We really want to avoid this.
 
-To solve this, Research should not depend on a concrete implementation (i.e. Relationships),
+To solve this, Research should not depend on a concrete implementation (i.e. __init__() commented out code),
 but rather on some sort of abstraction that can subsequently change.
 That is why we build the "RelationshipBrowser", containing an abstract method.
-Now, we move the whole functionality in lines 44-47 to a low level module.
+Now, we move the whole functionality to a low level module Relationships.find_all_children_of().
 
 WHY is this better?
 it is better because if you need to change relationships = list into a dictionary or something
-else, you would ony need to adapt the lines 35-38, and ALL the high level modules will work.
-
-Research(Relationships) in line 62 inherits RelationshipBrowser, and has its methods enherited.
-
+else, you would only need to adapt the lines in Relationships.find_all_children_of(), 
+and ALL the high level modules will work.
 
 """
